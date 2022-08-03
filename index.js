@@ -11,7 +11,7 @@ const request = require("request"),
     body_parser = require("body-parser"),
     axios = require("axios").default,
     app = express().use(body_parser.json()); // creates express http server
-    
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT , () => console.log("webhook is listening"));
 
@@ -25,7 +25,7 @@ app.post("/webhook", (req, res) => {
 
     // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
     if (req.body.object) {
-        console.log(req.body.object)
+        console.log("inside body param")
         if (
             req.body.entry &&
             req.body.entry[0].changes &&
@@ -47,35 +47,37 @@ app.post("/webhook", (req, res) => {
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
                     "https://graph.facebook.com/v13.0/" +
-                    phone_number_id +
+                    112386008141928 +
                     "/messages?access_token=" +
                     token,
                 data: {
                     messaging_product: "whatsapp",
-                    to: from,
-                    recipient_type:'individual',
+                    recipient_type: "individual",
+                    to: "+5519988532448",
                     type: "interactive",
                     interactive: {
                         type: "button",
-                        body: {text: "Seleciona uma das opção"},
-                    },
-                    action: {
-                        button:[
-                            {
-                                type: "reply",
-                                reply: {
-                                    id: "sim",
-                                    title: "sim"
-                                }
-                            },
-                            {
-                                type: "reply",
-                                reply: {
-                                    id: "nao",
-                                    title: "Não"
-                                }
-                            }
-                        ]
+                        body: {
+                            text: "Escolha uma das Opção"
+                        },
+                        action: {
+                            buttons: [
+                                {
+                                    type: "reply",
+                                    reply: {
+                                        id: "Sim",
+                                        title: "Não"
+                                    }
+                                },
+                                {
+                                    type: "reply",
+                                    reply: {
+                                        id: "nao",
+                                        title: "Não"
+                                    }
+                                },
+                            ]
+                        }
                     }
                 },
                 headers: { "Content-Type": "application/json" },
