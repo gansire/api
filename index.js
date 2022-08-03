@@ -42,7 +42,7 @@ app.post("/webhook", (req, res) => {
             console.log("from", from)
             console.log("boady params", msg_body)
 
-
+            console.log(token)
             axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
