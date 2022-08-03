@@ -11,9 +11,9 @@ const request = require("request"),
     body_parser = require("body-parser"),
     axios = require("axios").default,
     app = express().use(body_parser.json()); // creates express http server
-
+    
 // Sets server port and logs message on success
-app.listen(process.env.PORT, () => console.log("webhook is listening"));
+app.listen(process.env.PORT , () => console.log("webhook is listening"));
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
@@ -25,7 +25,7 @@ app.post("/webhook", (req, res) => {
 
     // info on WhatsApp text message payload: https://developers.facebook.com/docs/whatsapp/cloud-api/webhooks/payload-examples#text-messages
     if (req.body.object) {
-        console.log("inside body param")
+        console.log(req.body.object)
         if (
             req.body.entry &&
             req.body.entry[0].changes &&
