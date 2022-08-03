@@ -13,7 +13,7 @@ const request = require("request"),
     app = express().use(body_parser.json()); // creates express http server
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT, () => console.log("webhook is listening"));
+app.listen(process.env.PORT || 8080, () => console.log("webhook is listening"));
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
@@ -42,7 +42,7 @@ app.post("/webhook", (req, res) => {
             console.log("from", from)
             console.log("boady params", msg_body)
 
-            console.log(token)
+
             axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
