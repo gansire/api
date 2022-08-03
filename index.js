@@ -43,7 +43,7 @@ app.post("/webhook", (req, res) => {
             console.log("boady params", msg_body)
 
 
-            axios({
+            const recaxxios = axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
                     "https://graph.facebook.com/v13.0/" +
@@ -53,11 +53,35 @@ app.post("/webhook", (req, res) => {
                 data: {
                     messaging_product: "whatsapp",
                     to: from,
-                    text: { body: "Ack: " + msg_body },
+                    recipient_type:'individual',
+                    type: "interactive",
+                    interactive: {
+                        type: "button",
+                        body: {text: "Seleciona uma das opção"},
+                    },
+                    action: {
+                        button:[
+                            {
+                                type: "reply",
+                                reply: {
+                                    id: "sim",
+                                    title: "sim"
+                                }
+                            },
+                            {
+                                type: "reply",
+                                reply: {
+                                    id: "nao",
+                                    title: "Não"
+                                }
+                            }
+                        ]
+                    }
                 },
                 headers: { "Content-Type": "application/json" },
             });
         }
+        console.log("aqui o recaxxios", recaxxios)
         res.sendStatus(200);
     } else {
         // Return a '404 Not Found' if event is not from a WhatsApp API
