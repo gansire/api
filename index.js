@@ -47,13 +47,13 @@ app.post("/webhook", (req, res) => {
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
                     "https://graph.facebook.com/v13.0/" +
-                    "112386008141928"+
+                    phone_number_id+
                     "/messages?access_token=" +
                     token,
                 data: {
                     messaging_product: "whatsapp",
                     recipient_type: "individual",
-                    to: "+5519988532448",
+                    to: from,
                     type: "interactive",
                     interactive: {
                         type: "button",
