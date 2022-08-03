@@ -13,12 +13,12 @@ const request = require("request"),
     app = express().use(body_parser.json()); // creates express http server
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT , () => console.log("webhook is listening"));
+app.listen(process.env.PORT, () => console.log("webhook is listening"));
 
 // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
     // Parse the request body from the POST
-    //let body = req.body;
+    let body = req.body;
 
     console.log(JSON.stringify(req.body, null, 2));
     // Check the Incoming webhook message
@@ -47,38 +47,13 @@ app.post("/webhook", (req, res) => {
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
                     "https://graph.facebook.com/v13.0/" +
-                    phone_number_id+
+                    phone_number_id +
                     "/messages?access_token=" +
                     token,
                 data: {
                     messaging_product: "whatsapp",
-                    recipient_type: "individual",
                     to: from,
-                    type: "interactive",
-                    interactive: {
-                        type: "button",
-                        body: {
-                            text: "Escolha uma das Opção"
-                        },
-                        action: {
-                            buttons: [
-                                {
-                                    type: "reply",
-                                    reply: {
-                                        id: "Sim",
-                                        title: "Não"
-                                    }
-                                },
-                                {
-                                    type: "reply",
-                                    reply: {
-                                        id: "nao",
-                                        title: "Não"
-                                    }
-                                },
-                            ]
-                        }
-                    }
+                    text: { body: "Ack: " + msg_body },
                 },
                 headers: { "Content-Type": "application/json" },
             });
